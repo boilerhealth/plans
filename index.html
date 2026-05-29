@@ -659,10 +659,40 @@ body{
 }
 </style>
 <base target="_blank">
-<base target="_blank">
-<base target="_blank">
 </head>
 <body>
+
+<!-- HEADER NAVIGATION -->
+<header id="mainHeader" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: rgba(250,250,249,0.95); border-bottom: 1px solid var(--border); backdrop-filter: blur(10px);">
+  <nav style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 14px 32px; position: relative;">
+    <a href="https://sites.google.com/view/my-boiler-health/home?authuser=1" style="display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0;">
+      <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #121212; font-size: 16px;">B</div>
+      <span style="font-weight: 700; color: var(--text); font-size: 18px;">Boiler Health</span>
+    </a>
+
+    <!-- Mobile menu toggle -->
+    <button id="mobileMenuToggle" style="display: none; background: none; border: none; color: #ff8c00; font-size: 24px; cursor: pointer; padding: 5px;" onclick="toggleMobileMenu()">☰</button>
+
+    <ul id="mainNav" style="display: flex; align-items: center; gap: 28px; list-style: none; margin: 0; padding: 0;">
+      <li><a href="https://sites.google.com/view/my-boiler-health/home?authuser=1" style="color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#ff8c00'" onmouseout="this.style.color='var(--text-secondary)'">Home</a></li>
+      <li><a href="https://sites.google.com/view/my-boiler-health/plans?authuser=1" style="color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#ff8c00'" onmouseout="this.style.color='var(--text-secondary)'">Plans</a></li>
+      <li><a href="https://sites.google.com/view/my-boiler-health/cybh?authuser=1" style="color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#ff8c00'" onmouseout="this.style.color='var(--text-secondary)'">CYBH</a></li>
+      <li><a href="https://sites.google.com/view/my-boiler-health/sybd?authuser=1" style="color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#ff8c00'" onmouseout="this.style.color='var(--text-secondary)'">SYBD</a></li>
+      <li><a href="https://sites.google.com/view/my-boiler-health/claim?authuser=1" style="color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#ff8c00'" onmouseout="this.style.color='var(--text-secondary)'">Claim</a></li>
+      <li><a href="https://sites.google.com/view/my-boiler-health/blogs?authuser=1" style="color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#ff8c00'" onmouseout="this.style.color='var(--text-secondary)'">Blogs</a></li>
+      <li><a href="https://sites.google.com/view/my-boiler-health/contact-us/terms-and-conditions?authuser=1" style="color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#ff8c00'" onmouseout="this.style.color='var(--text-secondary)'">Terms & Conditions</a></li>
+      <li style="position: relative;">
+        <a href="#" id="contactDropdownToggle" style="color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.3s; display: inline-flex; align-items: center; gap: 4px;" onmouseover="this.style.color='#ff8c00'" onmouseout="this.style.color='var(--text-secondary)'" onclick="event.preventDefault(); toggleContactDropdown();">Contact us <span style="font-size: 10px;">▼</span></a>
+        <div id="contactDropdown" style="position: absolute; top: calc(100% + 10px); right: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 8px 0; min-width: 180px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); opacity: 0; pointer-events: none; transform: translateY(-5px); transition: all 0.3s;">
+          <a href="https://sites.google.com/view/my-boiler-health/contact-us/about-us?authuser=1" style="display: block; padding: 10px 20px; color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s;" onmouseover="this.style.color='#ff8c00'; this.style.background='rgba(255,140,0,0.05)'" onmouseout="this.style.color='var(--text-secondary)'; this.style.background='transparent'">About Us</a>
+          <a href="https://sites.google.com/view/my-boiler-health/contact-us/privacy-policy" style="display: block; padding: 10px 20px; color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s;" onmouseover="this.style.color='#ff8c00'; this.style.background='rgba(255,140,0,0.05)'" onmouseout="this.style.color='var(--text-secondary)'; this.style.background='transparent'">Privacy Policy</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</header>
+<div style="height: 60px;"></div>
+
 
 <div class="scroll-progress" id="scrollProgress"></div>
 
@@ -1044,6 +1074,39 @@ function updateCardPrice(product, isLandlord, isMonthly){
 // Init prices
 ['core','comp','abs','he','cybh','sybd'].forEach(p => {
   updateCardPrice(p, false, false);
+});
+</script>
+
+
+<style>
+#contactDropdown.active { opacity: 1 !important; pointer-events: auto !important; transform: translateY(0) !important; }
+
+@media (max-width: 1024px) {
+  #mainNav { display: none !important; position: absolute; top: 100%; left: 0; right: 0; background: var(--surface); flex-direction: column; gap: 0 !important; padding: 10px 0 !important; border-bottom: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+  #mainNav.active { display: flex !important; }
+  #mainNav li { width: 100%; }
+  #mainNav li a { display: block; padding: 12px 32px; border-bottom: 1px solid var(--border); }
+  #mainNav li:last-child a { border-bottom: none; }
+  #contactDropdown { position: static !important; width: 100%; box-shadow: none !important; border: none !important; background: transparent !important; padding: 0 !important; opacity: 1 !important; pointer-events: auto !important; transform: none !important; }
+  #contactDropdown a { padding-left: 50px !important; }
+  #mobileMenuToggle { display: block !important; }
+}
+</style>
+<script>
+function toggleContactDropdown() {
+  var dropdown = document.getElementById('contactDropdown');
+  dropdown.classList.toggle('active');
+}
+function toggleMobileMenu() {
+  var nav = document.getElementById('mainNav');
+  nav.classList.toggle('active');
+}
+document.addEventListener('click', function(e) {
+  var dropdown = document.getElementById('contactDropdown');
+  var toggle = document.getElementById('contactDropdownToggle');
+  if (dropdown && toggle && !toggle.contains(e.target) && !dropdown.contains(e.target)) {
+    dropdown.classList.remove('active');
+  }
 });
 </script>
 
