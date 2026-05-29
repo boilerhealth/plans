@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protection Plans | BoilerHealth</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fafaf9;
+  --bg-warm:#f5f5f4;
+  --surface:#ffffff;
+  --text:#1c1917;
+  --text-secondary:#57534e;
+  --text-tertiary:#a8a29e;
+  --accent-warm:#78716c;
+  --border:#e7e5e4;
+  --radius:16px;
+  --radius-sm:10px;
+  --accent-orange:#ff8c00;
+  --ease-smooth:cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Inter",-apple-system,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+
+/* Scroll Progress */
+.scroll-progress{
+  position:fixed;
+  top:0;
+  left:0;
+  height:2px;
+  background:var(--text);
+  z-index:9999;
+  width:0%;
+  will-change:width;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp{
+  from{opacity:0;transform:translate3d(0,30px,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes charReveal{
+  from{opacity:0;transform:translate3d(0,20px,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes shimmer{
+  0%{background-position:0% 50%}
+  100%{background-position:200% 50%}
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.05)}
+}
+
+.reveal{
+  opacity:0;
+  transform:translate3d(0,24px,0);
+  transition:opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
+  will-change:opacity,transform;
+}
+.reveal.revealed{
+  opacity:1;
+  transform:translate3d(0,0,0)
+}
+.stagger-1{transition-delay:.12s}
+.stagger-2{transition-delay:.24s}
+.stagger-3{transition-delay:.36s}
+.stagger-4{transition-delay:.48s}
+.stagger-5{transition-delay:.60s}
+.stagger-6{transition-delay:.72s}
+
+/* ===== PARTICLES ===== */
+.particles-bg{
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  pointer-events:none;
+  z-index:0;
+  overflow:hidden;
+}
+.particle{
+  position:absolute;
+  border-radius:50%;
+  background:var(--accent-warm);
+  opacity:.03;
+  transform:translate3d(0,0,0);
+}
+.particle:nth-child(1){width:300px;height:300px;left:-5%;top:10%}
+.particle:nth-child(2){width:200px;height:200px;right:-3%;top:35%;opacity:.025}
+.particle:nth-child(3){width:250px;height:250px;left:40%;bottom:5%;opacity:.02}
+
+/* ===== HERO ===== */
+.hero{
+  position:relative;
+  max-width:1280px;
+  margin:0 auto;
+  padding:80px 32px 40px;
+  text-align:center;
+}
+.hero-label{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 18px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:100px;
+  font-size:11px;
+  font-weight:600;
+  color:var(--text-secondary);
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-bottom:28px;
+  animation:fadeUp .6s ease .2s both;
+}
+.hero-label::before{
+  content:'';
+  width:6px;
+  height:6px;
+  background:var(--accent-orange);
+  border-radius:50%;
+}
+.hero h1{
+  font-size:clamp(36px,5vw,58px);
+  font-weight:900;
+  letter-spacing:-.03em;
+  line-height:1.1;
+  margin-bottom:16px;
+}
+.hero h1 .word{
+  display:inline-block;
+  overflow:hidden;
+  margin-right:.25em;
+}
+.hero h1 .word span{
+  display:inline-block;
+  animation:charReveal .5s ease both;
+}
+.hero h1 .word:nth-child(1) span{animation-delay:.3s}
+.hero h1 .word:nth-child(2) span{animation-delay:.4s}
+.hero h1 .word:nth-child(3) span{animation-delay:.5s}
+.hero h1 .word:nth-child(4) span{animation-delay:.6s}
+.hero h1 strong{font-weight:900;color:var(--accent-orange)}
+
+.hero-desc{
+  font-size:17px;
+  color:var(--text-secondary);
+  max-width:640px;
+  margin:0 auto 28px;
+  line-height:1.7;
+}
+.hero-desc .shimmer-text{
+  background:linear-gradient(90deg,var(--text-secondary),var(--text),var(--accent-warm));
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:shimmer 6s linear infinite;
+}
+
+.discount-badge{
+  display:inline-block;
+  background:linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+  color:#fff;
+  padding:6px 16px;
+  border-radius:20px;
+  font-weight:700;
+  font-size:14px;
+  margin-bottom:30px;
+  box-shadow:0 4px 15px rgba(255,140,0,.3);
+  animation:pulse 2s ease-in-out infinite;
+}
+
+/* ===== TOGGLE ===== */
+.toggle-wrap{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  margin-bottom:50px;
+}
+.toggle-label{
+  font-size:14px;
+  font-weight:600;
+  color:var(--text-secondary);
+  transition:color .3s ease;
+}
+.toggle-label.active{color:var(--text);font-weight:700}
+.toggle-switch{
+  position:relative;
+  display:inline-block;
+  width:60px;
+  height:32px;
+  cursor:pointer;
+}
+.toggle-switch input{
+  opacity:0;
+  width:0;
+  height:0;
+}
+.toggle-track{
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  background:var(--border);
+  border-radius:32px;
+  transition:background .4s var(--ease-smooth);
+}
+.toggle-switch input:checked + .toggle-track{background:var(--text)}
+.toggle-ball{
+  position:absolute;
+  height:24px;
+  width:24px;
+  left:4px;
+  bottom:4px;
+  background:var(--accent-orange);
+  border-radius:50%;
+  transition:transform .4s var(--ease-smooth);
+  box-shadow:0 2px 8px rgba(255,140,0,.4);
+}
+.toggle-switch input:checked + .toggle-track .toggle-ball{transform:translateX(28px)}
+
+/* ===== PLANS GRID ===== */
+.plans-section{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 32px 60px;
+  position:relative;
+  z-index:1;
+}
+.plans-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+  gap:20px;
+}
+
+.plan-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:40px 35px;
+  transition:border-color .5s var(--ease-smooth), transform .5s var(--ease-smooth), box-shadow .5s var(--ease-smooth);
+  position:relative;
+  overflow:hidden;
+  transform:translate3d(0,0,0);
+  will-change:transform;
+}
+.plan-card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:2px;
+  background:linear-gradient(90deg,var(--text),var(--accent-warm));
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .6s var(--ease-smooth);
+}
+.plan-card:hover::before{transform:scaleX(1)}
+.plan-card:hover{
+  border-color:#d6d3d1;
+  transform:translate3d(0,-8px,0);
+  box-shadow:0 20px 50px rgba(0,0,0,.08);
+}
+.plan-card.popular{
+  border:2px solid rgba(255,140,0,.4);
+  box-shadow:0 15px 50px rgba(255,140,0,.12);
+  transform:scale(1.02);
+}
+.plan-card.popular:hover{
+  transform:scale(1.05) translate3d(0,-8px,0);
+  box-shadow:0 25px 60px rgba(255,140,0,.2);
+}
+
+.popular-tag{
+  display:inline-block;
+  background:linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+  color:#fff;
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:15px;
+  box-shadow:0 4px 15px rgba(255,140,0,.3);
+  animation:pulse 2s ease-in-out infinite;
+}
+
+.plan-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:8px;
+}
+.plan-name{
+  font-size:24px;
+  font-weight:700;
+  color:var(--text);
+  transition:color .4s ease;
+}
+.plan-card:hover .plan-name{color:var(--accent-orange)}
+
+/* Monthly toggle inside card */
+.plan-toggle-wrap{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-bottom:8px;
+}
+.plan-toggle-label{
+  font-size:12px;
+  font-weight:600;
+  color:var(--text-tertiary);
+}
+.plan-toggle-switch{
+  position:relative;
+  display:inline-block;
+  width:48px;
+  height:24px;
+  cursor:pointer;
+}
+.plan-toggle-switch input{
+  opacity:0;
+  width:0;
+  height:0;
+}
+.plan-toggle-track{
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  background:var(--border);
+  border-radius:24px;
+  transition:background .3s ease;
+}
+.plan-toggle-switch input:checked + .plan-toggle-track{background:var(--text)}
+.plan-toggle-ball{
+  position:absolute;
+  height:18px;
+  width:18px;
+  left:3px;
+  bottom:3px;
+  background:var(--accent-orange);
+  border-radius:50%;
+  transition:transform .3s var(--ease-smooth);
+}
+.plan-toggle-switch input:checked + .plan-toggle-track .plan-toggle-ball{transform:translateX(24px)}
+
+.contract-note{
+  text-align:center;
+  font-size:11px;
+  color:var(--accent-orange);
+  margin-bottom:4px;
+  height:14px;
+  opacity:0;
+  transition:opacity .3s ease;
+}
+.contract-note.show{opacity:1}
+
+.plan-price{
+  font-size:36px;
+  color:var(--accent-orange);
+  font-weight:900;
+  margin:12px 0;
+  transition:transform .5s var(--ease-smooth);
+}
+.plan-card:hover .plan-price{transform:scale(1.03)}
+.plan-price span{
+  font-size:16px;
+  color:var(--text-tertiary);
+  font-weight:400;
+}
+
+.plan-features{
+  list-style:none;
+  padding:0;
+  margin:20px 0;
+}
+.plan-features li{
+  padding:10px 0;
+  border-bottom:1px solid var(--border);
+  color:var(--text-secondary);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:15px;
+  transition:padding-left .4s var(--ease-smooth), color .3s ease;
+}
+.plan-card:hover .plan-features li{padding-left:4px}
+.plan-features li::before{
+  content:'✓';
+  color:var(--accent-orange);
+  font-weight:900;
+  font-size:14px;
+  transition:transform .4s var(--ease-smooth);
+}
+.plan-card:hover .plan-features li::before{transform:scale(1.2)}
+.plan-features li.landlord-only{
+  display:none;
+  color:var(--accent-orange);
+  font-weight:600;
+}
+.plan-features li.landlord-only.show{display:flex}
+
+.plan-btn{
+  display:block;
+  text-align:center;
+  padding:14px;
+  border-radius:var(--radius-sm);
+  text-decoration:none;
+  font-weight:700;
+  font-size:14px;
+  transition:all .4s var(--ease-smooth);
+  margin-top:25px;
+  transform:translate3d(0,0,0);
+}
+.plan-btn-dark{
+  background:var(--text);
+  color:var(--bg);
+}
+.plan-btn-dark:hover{
+  background:var(--accent-warm);
+  transform:translate3d(0,-3px,0);
+  box-shadow:0 8px 24px rgba(0,0,0,.15);
+}
+.plan-btn-accent{
+  background:linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+  color:#fff;
+  box-shadow:0 4px 15px rgba(255,140,0,.3);
+}
+.plan-btn-accent:hover{
+  transform:translate3d(0,-3px,0);
+  box-shadow:0 12px 30px rgba(255,140,0,.5);
+}
+
+/* ===== CTA SECTION ===== */
+.cta-section{
+  max-width:1200px;
+  margin:40px auto;
+  padding:100px 32px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  border-radius:var(--radius);
+  background:linear-gradient(135deg, var(--bg-warm) 0%, var(--bg) 100%);
+  border:1px solid var(--border);
+}
+.cta-glow{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:600px;
+  height:600px;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle, rgba(255,140,0,.06) 0%, transparent 60%);
+  animation:pulse 6s ease-in-out infinite;
+  pointer-events:none;
+}
+.cta-label{
+  font-family:monospace;
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--text-tertiary);
+  margin-bottom:20px;
+  position:relative;
+  z-index:2;
+}
+.cta-section h2{
+  font-size:clamp(32px,5vw,56px);
+  font-weight:900;
+  color:var(--text);
+  line-height:1.1;
+  margin-bottom:20px;
+  position:relative;
+  z-index:2;
+}
+.cta-section h2 span{color:var(--accent-orange)}
+.cta-section p{
+  font-size:17px;
+  color:var(--text-secondary);
+  max-width:520px;
+  margin:0 auto 35px;
+  line-height:1.7;
+  position:relative;
+  z-index:2;
+}
+.cta-actions{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+  position:relative;
+  z-index:2;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:14px 28px;
+  font-size:14px;
+  font-weight:700;
+  border-radius:var(--radius-sm);
+  text-decoration:none;
+  transition:transform .35s var(--ease-smooth), background .35s var(--ease-smooth), box-shadow .35s var(--ease-smooth), border-color .35s var(--ease-smooth), color .35s var(--ease-smooth);
+  letter-spacing:-.1px;
+  border:none;
+  cursor:pointer;
+  line-height:1;
+  transform:translate3d(0,0,0);
+}
+.btn-primary{
+  background:var(--text);
+  color:var(--bg);
+}
+.btn-primary:hover{
+  transform:translate3d(0,-3px,0);
+  background:var(--accent-warm);
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+.btn-ghost{
+  background:transparent;
+  color:var(--text-secondary);
+  border:1.5px solid var(--border);
+}
+.btn-ghost:hover{
+  border-color:var(--accent-orange);
+  color:var(--accent-orange);
+  background:var(--surface);
+  transform:translate3d(0,-3px,0);
+  box-shadow:0 8px 24px rgba(0,0,0,.06);
+}
+
+/* ===== FOOTER ===== */
+.site-footer{
+  background:var(--bg-warm);
+  border-top:1px solid var(--border);
+  padding:48px 32px;
+  position:relative;
+  z-index:1;
+}
+.footer-content{
+  max-width:800px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:20px;
+}
+.footer-links{
+  display:flex;
+  gap:24px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.footer-links a{
+  font-size:13px;
+  color:var(--text-secondary);
+  text-decoration:none;
+  transition:color .2s ease;
+}
+.footer-links a:hover{color:var(--text)}
+.footer-copy{
+  color:var(--text-tertiary);
+  font-size:13px;
+  letter-spacing:.3px;
+  text-align:center;
+}
+
+/* ===== CHAT NOTIFICATION BADGE ===== */
+.chat-badge {
+  display: inline-block;
+  background: #ff3b30;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 50%;
+  margin-left: 6px;
+  vertical-align: middle;
+  line-height: 1;
+  animation: badgePulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(255,59,48,0.5);
+}
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+}
+
+/* ===== CHAT POPUP ABOVE BUTTON ===== */
+.chat-popup {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  z-index: 999999;
+  white-space: nowrap;
+}
+.chat-popup.active {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+.chat-popup-body {
+  background: linear-gradient(135deg, #1a1a1a 0%, #121212 100%);
+  border: 1px solid rgba(255,140,0,0.4);
+  border-radius: 12px;
+  padding: 12px 18px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 20px rgba(255,140,0,0.1);
+  position: relative;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+.chat-popup-arrow {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid rgba(255,140,0,0.4);
+}
+.chat-popup-close {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  color: #888;
+  font-size: 14px;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.chat-popup-close:hover { color: #ff8c00; }
+
+/* Responsive */
+@media(max-width:768px){
+  .hero{padding:60px 20px 40px}
+  .plans-section{padding:0 20px 40px}
+  .cta-section{padding:80px 20px}
+  .plans-grid{grid-template-columns:1fr}
+  .plan-card.popular{transform:scale(1)}
+  .plan-card.popular:hover{transform:scale(1.03) translate3d(0,-8px,0)}
+}
+</style>
+<base target="_blank">
+<base target="_blank">
+<base target="_blank">
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<div class="particles-bg">
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-label">Insurance Plans</div>
+  <h1>
+    <span class="word"><span>Choose</span></span>
+    <span class="word"><span>Your</span></span>
+    <span class="word"><span><strong>Protection</strong></span></span>
+    <span class="word"><span><strong>Plan</strong></span></span>
+  </h1>
+  <p class="hero-desc">
+    <span class="shimmer-text">Flexible Annually boiler insurance plans support designed for every home and budget.</span>
+  </p>
+  <div class="discount-badge reveal stagger-1">35% Discount</div>
+
+  <!-- Home / Landlord Toggle -->
+  <div class="toggle-wrap reveal stagger-2">
+    <span class="toggle-label active" id="homeLabel">Home</span>
+    <label class="toggle-switch">
+      <input type="checkbox" id="planToggle">
+      <span class="toggle-track">
+        <span class="toggle-ball"></span>
+      </span>
+    </label>
+    <span class="toggle-label" id="landlordLabel">Landlord</span>
+<div style="position:relative;display:inline-block;" id="chatBtnWrap">
+  <a class="btn btn-ghost" href="#" id="chatExpertBtn" onclick="event.preventDefault(); if(typeof Tawk_API!=='undefined'&&Tawk_API.maximize){Tawk_API.maximize(); hideChatPopup();}return false;">Chat with Expert<span id="chatBadge" class="chat-badge" style="display:none;">1</span></a>
+  <!-- POPUP ABOVE BUTTON -->
+  <div id="chatPopup" class="chat-popup">
+    <div class="chat-popup-arrow"></div>
+    <div class="chat-popup-body">
+      <span class="chat-popup-close" onclick="event.stopPropagation(); hideChatPopup();">&times;</span>
+      <strong>You have a message from expert?</strong>
+    </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<!-- ===== PLANS ===== -->
+<div class="plans-section">
+  <div class="plans-grid">
+
+    <!-- CORE -->
+    <div class="plan-card reveal stagger-1">
+      <h2 class="plan-name">Core</h2>
+      <div class="plan-toggle-wrap">
+        <span class="plan-toggle-label">Annual</span>
+        <label class="plan-toggle-switch">
+          <input class="monthlyToggle" data-product="core" type="checkbox">
+          <span class="plan-toggle-track"><span class="plan-toggle-ball"></span></span>
+        </label>
+        <span class="plan-toggle-label">Monthly</span>
+      </div>
+      <div class="contract-note" id="coreNote">12 month contract</div>
+      <h3 class="plan-price" id="corePrice">£99<span>/year</span></h3>
+      <ul class="plan-features">
+        <li>Boiler breakdown</li>
+        <li>Annual service support</li>
+        <li>No excess fees</li>
+        <li class="landlord-only" id="coreLandlord">Boiler Health Certificate</li>
+      </ul>
+      <a href="https://sites.google.com/view/my-boiler-health/home/get-protected" class="plan-btn plan-btn-dark">Get Core Plan</a>
+    </div>
+
+    <!-- COMPREHENSIVE -->
+    <div class="plan-card popular reveal stagger-2">
+      <div class="popular-tag">MOST POPULAR</div>
+      <h2 class="plan-name">Comprehensive</h2>
+      <div class="plan-toggle-wrap">
+        <span class="plan-toggle-label">Annual</span>
+        <label class="plan-toggle-switch">
+          <input class="monthlyToggle" data-product="comp" type="checkbox">
+          <span class="plan-toggle-track"><span class="plan-toggle-ball"></span></span>
+        </label>
+        <span class="plan-toggle-label">Monthly</span>
+      </div>
+      <div class="contract-note" id="compNote">12 month contract</div>
+      <h3 class="plan-price" id="compPrice">£282.72<span>/year</span></h3>
+      <ul class="plan-features">
+        <li>Everything included</li>
+        <li>Boiler breakdown</li>
+        <li>Appliances</li>
+        <li>Annual service support</li>
+        <li>Heating & Radiator support</li>
+        <li>Plumbing & drainage</li>
+        <li>Home Security</li>
+        <li>Electrics</li>
+        <li>SYBD</li>
+        <li>CYBH</li>
+        <li>No excess fees</li>
+        <li class="landlord-only" id="compLandlord1">CYBH Certificate</li>
+        <li class="landlord-only" id="compLandlord2">Boiler Health Certificate</li>
+      </ul>
+      <a href="https://sites.google.com/view/my-boiler-health/home/get-protected" class="plan-btn plan-btn-accent">Get Comprehensive</a>
+    </div>
+
+    <!-- ABSOLUTE -->
+    <div class="plan-card reveal stagger-3">
+      <h2 class="plan-name">Absolute</h2>
+      <div class="plan-toggle-wrap">
+        <span class="plan-toggle-label">Annual</span>
+        <label class="plan-toggle-switch">
+          <input class="monthlyToggle" data-product="abs" type="checkbox">
+          <span class="plan-toggle-track"><span class="plan-toggle-ball"></span></span>
+        </label>
+        <span class="plan-toggle-label">Monthly</span>
+      </div>
+      <div class="contract-note" id="absNote">12 month contract</div>
+      <h3 class="plan-price" id="absPrice">£155.99<span>/year</span></h3>
+      <ul class="plan-features">
+        <li>Boiler breakdown</li>
+        <li>Annual service support</li>
+        <li>Heating & Radiator support</li>
+        <li>Plumbing & Electrics</li>
+        <li>No excess fees</li>
+        <li class="landlord-only" id="absLandlord">Boiler Health Certificate</li>
+      </ul>
+      <a href="https://sites.google.com/view/my-boiler-health/home/get-protected" class="plan-btn plan-btn-dark">Get Absolute</a>
+    </div>
+
+    <!-- HOME ESSENTIALS -->
+    <div class="plan-card reveal stagger-4">
+      <h2 class="plan-name">Home Essentials</h2>
+      <div class="plan-toggle-wrap">
+        <span class="plan-toggle-label">Annual</span>
+        <label class="plan-toggle-switch">
+          <input class="monthlyToggle" data-product="he" type="checkbox">
+          <span class="plan-toggle-track"><span class="plan-toggle-ball"></span></span>
+        </label>
+        <span class="plan-toggle-label">Monthly</span>
+      </div>
+      <div class="contract-note" id="heNote">12 month contract</div>
+      <h3 class="plan-price" id="hePrice">£93.52<span>/year</span></h3>
+      <ul class="plan-features">
+        <li>Plumbing & drainage</li>
+        <li>Electrics</li>
+        <li>Home Security</li>
+        <li>Pest</li>
+        <li>No excess fees</li>
+      </ul>
+      <a href="https://sites.google.com/view/my-boiler-health/payment" class="plan-btn plan-btn-dark">Get HE</a>
+    </div>
+
+    <!-- CYBH -->
+    <div class="plan-card reveal stagger-5">
+      <h2 class="plan-name">CYBH</h2>
+      <div class="plan-toggle-wrap">
+        <span class="plan-toggle-label">Annual</span>
+        <label class="plan-toggle-switch">
+          <input class="monthlyToggle" data-product="cybh" type="checkbox">
+          <span class="plan-toggle-track"><span class="plan-toggle-ball"></span></span>
+        </label>
+        <span class="plan-toggle-label">Monthly</span>
+      </div>
+      <div class="contract-note" id="cybhNote">12 month contract</div>
+      <h3 class="plan-price" id="cybhPrice">£50.99<span>/year</span></h3>
+      <ul class="plan-features">
+        <li>Boiler diagnostics</li>
+        <li>Fault analysis</li>
+        <li>Performance tracking</li>
+        <li>Digital boiler health check</li>
+        <li class="landlord-only" id="cybhLandlord1">User reported symptoms</li>
+        <li class="landlord-only" id="cybhLandlord2">CYBH Certificate</li>
+        <li class="landlord-only" id="cybhLandlord3">Boiler Health Certificate</li>
+      </ul>
+      <a href="https://sites.google.com/view/my-boiler-health/home/get-protected" class="plan-btn plan-btn-dark">Get CYBH</a>
+    </div>
+
+    <!-- SYBD -->
+    <div class="plan-card reveal stagger-6">
+      <h2 class="plan-name">SYBD</h2>
+      <div class="plan-toggle-wrap">
+        <span class="plan-toggle-label">Annual</span>
+        <label class="plan-toggle-switch">
+          <input class="monthlyToggle" data-product="sybd" type="checkbox">
+          <span class="plan-toggle-track"><span class="plan-toggle-ball"></span></span>
+        </label>
+        <span class="plan-toggle-label">Monthly</span>
+      </div>
+      <div class="contract-note" id="sybdNote">12 month contract</div>
+      <h3 class="plan-price" id="sybdPrice">£50.99<span>/year</span></h3>
+      <ul class="plan-features">
+        <li>Service history</li>
+        <li>Warranty info</li>
+        <li>Installation records</li>
+        <li class="landlord-only" id="sybdLandlord1">Technical specs</li>
+        <li class="landlord-only" id="sybdLandlord2">Encrypted storage</li>
+      </ul>
+      <a href="https://sites.google.com/view/my-boiler-health/home/get-protected" class="plan-btn plan-btn-dark">Get SYBD</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section reveal">
+  <div class="cta-glow"></div>
+  <div class="cta-label reveal stagger-1">Secure Your Home Today</div>
+  <h2 class="reveal stagger-2">
+    Don't Wait for<br><span>the Breakdown</span>
+  </h2>
+  <p class="reveal stagger-3">
+    Every minute without cover is a risk. Get protected now and never worry about your boiler again.
+  </p>
+  <div class="cta-actions reveal stagger-4">
+    <a class="btn btn-primary" href="https://sites.google.com/view/my-boiler-health/home/get-protected">Get Protected Now</a>
+    <a class="btn btn-ghost" href="mailto:contactboilerhealth@atomicmail.io">Email Us</a>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer reveal stagger-3">
+  <div class="footer-content">
+    <div class="footer-links">
+      <a href="https://sites.google.com/view/my-boiler-health/plans">Plans</a>
+      <a href="https://sites.google.com/view/my-boiler-health/sybd">SYBD</a>
+      <a href="#">CYBH</a>
+      <a href="https://sites.google.com/view/my-boiler-health/contact-us/about-us">About Us</a>
+      <a href="https://sites.google.com/view/my-boiler-health/contact-us/privacy-policy">Privacy Policy</a>
+      <a href="mailto:boilerhealth@atomicmail.io">boilerhealth@atomicmail.io</a>
+      <a href="https://sites.google.com/view/my-boiler-health/contact-us">Support</a>
+    </div>
+    <p class="footer-copy">© 2026 Boiler Health. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<!-- CHAT BADGE CALLBACKS & POPUP (must be before Tawk.to load) -->
+<script>
+var Tawk_API = Tawk_API || {};
+(function() {
+    var chatOpen = false;
+    function showBadge() {
+        var badge = document.getElementById('chatBadge');
+        if (badge && !chatOpen) badge.style.display = 'inline-block';
+    }
+    function hideBadge() {
+        var badge = document.getElementById('chatBadge');
+        if (badge) badge.style.display = 'none';
+    }
+    function showPopup() {
+        if (chatOpen) return;
+        var popup = document.getElementById('chatPopup');
+        if (popup) popup.classList.add('active');
+        showBadge();
+    }
+    window.hideChatPopup = function() {
+        var popup = document.getElementById('chatPopup');
+        if (popup) popup.classList.remove('active');
+        hideBadge();
+    };
+    Tawk_API.onLoad = function() {
+        Tawk_API.hideWidget();
+    };
+    Tawk_API.onChatMaximized = function() {
+        chatOpen = true;
+        hideBadge();
+        hideChatPopup();
+    };
+    Tawk_API.onChatMinimized = function() {
+        chatOpen = false;
+    };
+    Tawk_API.onChatHidden = function() {
+        chatOpen = false;
+    };
+    Tawk_API.onChatMessageAgent = function() {
+        if (!chatOpen) showPopup();
+    };
+    Tawk_API.onChatMessageVisitor = function() {
+        if (!chatOpen) showPopup();
+    };
+})();
+</script>
+
+<!-- TAWK.TO -->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69fc50d3d66edf1c3469954e/1jo0pnet0';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+// Scroll Progress
+(function(){
+  const p = document.getElementById('scrollProgress');
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if(!ticking){
+      requestAnimationFrame(() => {
+        p.style.width = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100 + '%';
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, {passive:true});
+})();
+
+// Reveal Observer
+(function(){
+  const o = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('revealed');
+        o.unobserve(entry.target);
+      }
+    });
+  }, {rootMargin:'0px 0px -50px 0px', threshold:0.05});
+  document.querySelectorAll('.reveal').forEach(el => o.observe(el));
+})();
+
+// Pricing Data
+const prices = {
+  core: 99,
+  comp: 282.72,
+  abs: 155.99,
+  he: 93.52,
+  cybh: 50.99,
+  sybd: 50.99
+};
+
+// Home / Landlord Toggle
+const planToggle = document.getElementById('planToggle');
+const homeLabel = document.getElementById('homeLabel');
+const landlordLabel = document.getElementById('landlordLabel');
+
+planToggle.addEventListener('change', function(){
+  const isLandlord = this.checked;
+  homeLabel.classList.toggle('active', !isLandlord);
+  landlordLabel.classList.toggle('active', isLandlord);
+
+  // Show/hide landlord-only features
+  document.querySelectorAll('.landlord-only').forEach(el => {
+    el.classList.toggle('show', isLandlord);
+  });
+
+  // Update all prices
+  document.querySelectorAll('.monthlyToggle').forEach(mt => {
+    updateCardPrice(mt.dataset.product, isLandlord, mt.checked);
+  });
+});
+
+// Monthly toggle inside each card
+document.querySelectorAll('.monthlyToggle').forEach(mt => {
+  mt.addEventListener('change', function(){
+    updateCardPrice(this.dataset.product, planToggle.checked, this.checked);
+  });
+});
+
+function updateCardPrice(product, isLandlord, isMonthly){
+  let price = prices[product] + (isLandlord ? 5 : 0);
+  if(isMonthly) price = price / 12;
+
+  const el = document.getElementById(product + 'Price');
+  const suffix = isMonthly ? '/month' : '/year';
+  let decimals = (!isMonthly && product === 'core') ? 0 : 2;
+
+  el.innerHTML = '£' + price.toFixed(decimals) + '<span>' + suffix + '</span>';
+
+  // Show/hide contract note
+  const note = document.getElementById(product + 'Note');
+  if(note) note.classList.toggle('show', isMonthly);
+}
+
+// Init prices
+['core','comp','abs','he','cybh','sybd'].forEach(p => {
+  updateCardPrice(p, false, false);
+});
+</script>
+
+</body>
+</html>
